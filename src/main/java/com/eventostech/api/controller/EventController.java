@@ -1,6 +1,7 @@
 package com.eventostech.api.controller;
 
 import com.eventostech.api.domain.event.Event;
+import com.eventostech.api.domain.event.EventDetailsDTO;
 import com.eventostech.api.domain.event.EventRequestDTO;
 import com.eventostech.api.domain.event.EventResponseDTO;
 import com.eventostech.api.service.EventService;
@@ -11,6 +12,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.util.Date;
 import java.util.List;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/api/event")
@@ -42,6 +44,12 @@ public class EventController {
     public ResponseEntity<List<EventResponseDTO>> getUpComingEvents(@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "10") int size) {
         List<EventResponseDTO> allEvents = this.eventService.getUpComingEvents(page, size);
         return ResponseEntity.ok().body(allEvents);
+    }
+
+    @GetMapping("/{eventId}")
+    public ResponseEntity<EventDetailsDTO> getEventDetails(@PathVariable UUID eventId) {
+        EventDetailsDTO eventDetails = eventService.getEventDetails(eventId);
+        return ResponseEntity.ok().body(eventDetails);
     }
 
     @GetMapping("/filter")
